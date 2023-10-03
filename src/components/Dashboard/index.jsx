@@ -1,8 +1,17 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
+
 /* eslint-disable react/no-unknown-property */
-const Dashboard = ({timeNow}) => {
+const Dashboard = ({timeNow, 
+  name, 
+  date,
+  days,
+  hours,
+  minutes,
+  seconds
+}) => {
   return(
-    <div className="relative isolate px-6 pt-10 lg:px-8">
+    <div className="relative isolate px-3 pt-10 lg:px-8">
       <div
         className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
         aria-hidden="true"
@@ -27,13 +36,18 @@ const Dashboard = ({timeNow}) => {
         </div>
 
         <div className="text-center">
-          <h1 className="text-4xl font-bold trancking-light text-gray-900 sm:text-6xl">
-            Data enrich yout online businnes
-          </h1>
-
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet
-            fugiat veniam occaecat fugiat aliqua.
+            Liburan Selanjutnya :
+          </p>
+          <h1 className="text-4xl font-bold trancking-light text-gray-900 sm:text-6xl">
+            {name}
+          </h1>
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            {date}
+          </p>
+
+          <p className="mt-6 text-lg leading-8 text-gray-800 ">
+            <span>Hari {days}</span>  <span>Jam {hours}</span>  <span>Menit {minutes}</span> <span>Detik {seconds}</span> 
           </p>
         </div>
       </div>
@@ -49,6 +63,15 @@ const Dashboard = ({timeNow}) => {
                 'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
           }}
         >
+        </div>
+      </div>
+
+      <div className="flex justify-center item-center mb-8">
+        <div className="w-3/4 h-80 bg-white-300 shadow-lg tex-white p-4 mt-1 rounded">
+          <div className="flex justify-between pt-8 py-8">
+            <div>calendar</div>
+            <div className="hidden lg:flex lg:flex-1 lg:justify-end">list</div>
+          </div>
         </div>
       </div>
     </div>

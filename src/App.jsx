@@ -1,24 +1,31 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unknown-property */
 
 import moment from "moment"
-import CardLayout from "./components/CardLayout"
 import Dashboard from "./components/Dashboard"
 import NavbarComponent from "./components/NavComponent"
 import { countdownHoliday } from "./controller/countdownHoliday"
-// import { ControllerCountdown } from "./customHook/countdownHoliday"
+import 'moment/locale/id';
 
 function App() {
-  const {filterNational} = countdownHoliday()
-  moment.locale('id')
-  const Now = new Date()
-
-  console.log("filter", filterNational)
-
+  const { countDown } = countdownHoliday()
+  moment.locale('id'); // Set the locale to Indonesian
+  const formattedDate = moment().format('l'); // Example formatting
   return (
     <div>
       <NavbarComponent />
-      <Dashboard timeNow={moment(Now).local('id').format('LL')} />
-      <CardLayout />
+      <Dashboard 
+        timeNow={formattedDate} 
+        name={countDown?.name}
+        date={moment(countDown?.date).format('ll')}
+        days={countDown?.days}
+        hours={countDown?.hours}
+        minutes={countDown?.minutes}
+        seconds={countDown?.seconds}
+      />
+      {/* <div className="mt-6">
+        <CardLayout />
+      </div> */}
     </div>
   )
 }
