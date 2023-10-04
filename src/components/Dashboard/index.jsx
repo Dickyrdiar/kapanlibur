@@ -1,17 +1,21 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
+import Spinner from "../Spinner"
+
 /* eslint-disable react/no-unknown-property */
-const Dashboard = ({timeNow, 
+const Dashboard = ({
+  timeNow, 
   name, 
   date,
   days,
   hours,
   minutes,
-  seconds
+  seconds,
+  loading
 }) => {
   return(
-    <div className="relative isolate px-3 pt-10 lg:px-8">
+    <div className="relative isolate px-3 pt-5 lg:px-8">
       <div
         className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
         aria-hidden="true"
@@ -28,10 +32,10 @@ const Dashboard = ({timeNow,
       <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
         <div className="hidden sm:mb-8 sm:flex sm:justify-center">
           <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-            <a href="#" className="font-semibold text-indigo-600">
+            <p className="font-semibold text-indigo-600">
               <span className="absolute inset-0" aria-hidden="true" />
-              {timeNow}
-            </a>
+              Hari ini Tanggal: {timeNow}
+            </p>
           </div>
         </div>
 
@@ -39,16 +43,27 @@ const Dashboard = ({timeNow,
           <p className="mt-6 text-lg leading-8 text-gray-600">
             Liburan Selanjutnya :
           </p>
-          <h1 className="text-4xl font-bold trancking-light text-gray-900 sm:text-6xl">
-            {name}
-          </h1>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
-            {date}
-          </p>
+            <>
+              {loading ? (
+                <div className="mb-10">
+                  <Spinner />
+                </div>
+              ) : (
+                <>
+                  <h1 className="text-4xl font-bold trancking-light text-gray-900 sm:text-6xl">
+                    {name}
+                  </h1>
+                  <p className="mt-6 text-lg leading-8 text-gray-600">
+                    {date}
+                  </p>
 
-          <p className="mt-6 text-lg leading-8 text-gray-800 ">
-            <span>Hari {days}</span>  <span>Jam {hours}</span>  <span>Menit {minutes}</span> <span>Detik {seconds}</span> 
-          </p>
+                  <p className="mt-6 text-lg leading-8 text-gray-800 ">
+                    <span>{days} Hari,</span>  <span>{hours} Jam,</span>  <span>{minutes} Menit,</span> <span>{seconds} Detik</span> 
+                  </p>
+                </>
+              )}
+            </>
+          
         </div>
       </div>
 
@@ -66,8 +81,8 @@ const Dashboard = ({timeNow,
         </div>
       </div>
 
-      <div className="flex justify-center item-center mb-8">
-        <div className="w-3/4 h-80 bg-white-300 shadow-lg tex-white p-4 mt-1 rounded">
+      <div className="flex justify-center item-center mb-8 lg:px-8">
+        <div className="w-2/4 h-80 bg-white-300 shadow-lg tex-white p-4 mt-1 rounded">
           <div className="flex justify-between pt-8 py-8">
             <div>calendar</div>
             <div className="hidden lg:flex lg:flex-1 lg:justify-end">list</div>

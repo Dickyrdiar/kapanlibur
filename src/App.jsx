@@ -8,12 +8,13 @@ import { countdownHoliday } from "./controller/countdownHoliday"
 import 'moment/locale/id';
 
 function App() {
-  const { countDown } = countdownHoliday()
+  const { countDown, loading, isVisible } = countdownHoliday()
   moment.locale('id'); // Set the locale to Indonesian
-  const formattedDate = moment().format('l'); // Example formatting
+  const formattedDate = moment().format('l');
+  console.log("isVisible", isVisible); // Example formatting
   return (
     <div>
-      <NavbarComponent />
+      <NavbarComponent converty={isVisible} />
       <Dashboard 
         timeNow={formattedDate} 
         name={countDown?.name}
@@ -22,10 +23,8 @@ function App() {
         hours={countDown?.hours}
         minutes={countDown?.minutes}
         seconds={countDown?.seconds}
+        loading={loading}
       />
-      {/* <div className="mt-6">
-        <CardLayout />
-      </div> */}
     </div>
   )
 }
