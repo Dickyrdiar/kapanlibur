@@ -1,6 +1,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
+
+// import { useTheme } from "./src/context/themeContext"
+import Calendar from "../Calendar"
+import DatePicker from "../Calendar"
 import Spinner from "../Spinner"
 
 /* eslint-disable react/no-unknown-property */
@@ -14,8 +18,10 @@ const Dashboard = ({
   seconds,
   loading
 }) => {
+  // const [isDarkTheme] = useTheme()
+
   return(
-    <div className="relative isolate px-3 pt-5 lg:px-8">
+    <div className="relative isolate px-3 lg:px-8">
       <div
         className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
         aria-hidden="true"
@@ -81,10 +87,12 @@ const Dashboard = ({
         </div>
       </div>
 
-      <div className="flex justify-center item-center mb-8 lg:px-8">
-        <div className="w-2/4 h-80 bg-white-300 shadow-lg tex-white p-4 mt-1 rounded">
+      <div className="flex justify-center item-center  lg:px-8">
+        <div className="w-2/4 h-1/4 pt-8 bg-white-300 shadow-lg tex-white p-4 mt-1 rounded">
           <div className="flex justify-between pt-8 py-8">
-            <div>calendar</div>
+            <div>
+              <Calendar />
+            </div>
             <div className="hidden lg:flex lg:flex-1 lg:justify-end">list</div>
           </div>
         </div>

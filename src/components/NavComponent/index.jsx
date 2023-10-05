@@ -6,8 +6,6 @@ const NavbarComponent = (converty) => {
   const {
     selectedLAnguage,
     isOpen,
-    isDark,
-    ToggleTheme,
     setIsOpen,
     language,
     handleLanguage
@@ -22,18 +20,6 @@ const NavbarComponent = (converty) => {
     <nav className="flex fixed w-full items-center justify-between p-6 lg:px-8" aria-label="Global">
       <div className="flex lg:flex-1">
         <div className="relative inline-block">
-          <button
-            className={`bg-gray-200 dark:bg-gray-800 w-12 h-6 rounded-full p-1 focus:outline-none transition-transform transform ${
-              isDark ? 'translate-x-6 bg-blue-500' : ''
-            }`}
-            onClick={ToggleTheme}
-          >
-            <span
-              className={`block w-4 h-4 rounded-full bg-white shadow-md transform ${
-                isDark ? 'translate-x-4' : ''
-              }`}
-            ></span>
-          </button>
         </div>
       </div>
       <div className="lg:flex lg:flex-1 lg:justify-end">

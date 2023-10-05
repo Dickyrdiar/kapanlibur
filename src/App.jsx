@@ -14,6 +14,9 @@ function App() {
   console.log("isVisible", isVisible); // Example formatting
   return (
     <div>
+      {/* <ThemeProvider>
+        
+      </ThemeProvider> */}
       <NavbarComponent converty={isVisible} />
       <Dashboard 
         timeNow={formattedDate} 
