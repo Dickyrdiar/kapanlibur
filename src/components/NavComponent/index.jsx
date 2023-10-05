@@ -1,7 +1,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
+import { Converty } from '../Converti';
 import { controllerNavbar } from "/src/controller/controllerNavbar";
 
-const NavbarComponent = () => {
+const NavbarComponent = (converty) => {
   const {
     selectedLAnguage,
     isOpen,
@@ -12,6 +13,10 @@ const NavbarComponent = () => {
     handleLanguage
 
   } = controllerNavbar()
+
+  {converty && (
+    <Converty />
+  )}
 
   return (
     <nav className="flex fixed w-full items-center justify-between p-6 lg:px-8" aria-label="Global">

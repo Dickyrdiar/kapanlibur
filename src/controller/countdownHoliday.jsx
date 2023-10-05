@@ -7,7 +7,8 @@ import useFetchHariLibur from "../customHook"
 
 export const countdownHoliday = () => {
   const [countDown, setCountdown] = useState(null)
-  const {data} = useFetchHariLibur({
+  const [isVisible, setIsvisible] = useState(false)
+  const {data, loading, error} = useFetchHariLibur({
     url: '/api',
     method: 'GET'
   })
@@ -25,8 +26,6 @@ export const countdownHoliday = () => {
       const holidayDate = new Date(holiday?.holiday_date)
       const holidayMonth = holidayDate.getMonth() + 1
 
-      console.log() 
-
       if (holidayMonth === currentMonth) {
         if (holidayDate > currentDate) {
           nextHoliday = holiday
@@ -43,6 +42,9 @@ export const countdownHoliday = () => {
       const holidayDate = new Date(nextHoliday.holiday_date)
       const timeuntilHoliday = holidayDate - currentDate
 
+      if (timeuntilHoliday <= 0) {
+        setIsvisible(true)
+      }
 
       setCountdown({
         name: nextHoliday.holiday_name,
@@ -70,6 +72,9 @@ export const countdownHoliday = () => {
   },[data])
 
   return {
-    countDown
+    countDown,
+    loading,
+    error,
+    isVisible
   }
 }
