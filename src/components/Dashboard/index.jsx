@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-
 import Spinner from "../Spinner"
 
 /* eslint-disable react/no-unknown-property */
@@ -14,8 +13,10 @@ const Dashboard = ({
   seconds,
   loading
 }) => {
+
+
   return(
-    <div className="relative isolate px-3 pt-5 lg:px-8">
+    <div className="relative isolate px-3 lg:px-8">
       <div
         className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
         aria-hidden="true"
@@ -78,15 +79,6 @@ const Dashboard = ({
                 'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
           }}
         >
-        </div>
-      </div>
-
-      <div className="flex justify-center item-center mb-8 lg:px-8">
-        <div className="w-2/4 h-80 bg-white-300 shadow-lg tex-white p-4 mt-1 rounded">
-          <div className="flex justify-between pt-8 py-8">
-            <div>calendar</div>
-            <div className="hidden lg:flex lg:flex-1 lg:justify-end">list</div>
-          </div>
         </div>
       </div>
     </div>

@@ -5,26 +5,26 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && gziper compress ./build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test": {
-      "preset": "jest-preset-react",
-      "testEnvironment": "jsdom"
-    }
+    "test": "jest"
   },
-
   "babel": {
-    "presets": ["@babel/preset-env", "@babel/preset-react"]
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
   },
-
   "dependencies": {
     "axios": "^1.5.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",
     "framer-motion": "^10.16.4",
+    "gzipper": "^7.2.0",
     "i18next": "^23.5.1",
+    "i18next-react": "^0.2.2",
     "lucide-react": "^0.279.0",
     "moment": "^2.29.4",
     "prettier": "^3.0.3",
@@ -32,6 +32,7 @@
     "react-canvas-confetti": "^1.4.0",
     "react-day-picker": "^8.8.2",
     "react-dom": "^18.2.0",
+    "react-i18next": "^13.2.2",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7"
   },

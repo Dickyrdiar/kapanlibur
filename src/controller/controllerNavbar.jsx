@@ -10,7 +10,7 @@ export const controllerNavbar = () => {
 
   const handleLanguage = (lang) => {
     setSelectedLanguage(lang)
-    setIsOpen(false)
+    setIsOpen(!isOpen)
   }
 
   useEffect(() => {

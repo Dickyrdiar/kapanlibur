@@ -1,3 +1,4 @@
+/* eslint-disable no-unreachable */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
 
@@ -16,26 +17,28 @@ export const countdownHoliday = () => {
   useEffect(() => {
     const currentDate = new Date()
     const currentMonth = currentDate.getMonth() +1
+    const currentYear = currentDate.getFullYear()
     const filterNational = data?.filter((val) => val.is_national_holiday === true)
 
     console.log(currentMonth);
 
     let nextHoliday = null
     for (const holiday of Object.values(filterNational || {})) {
-      
       const holidayDate = new Date(holiday?.holiday_date)
+      const holidayYear = holidayDate.getFullYear()
       const holidayMonth = holidayDate.getMonth() + 1
 
-      if (holidayMonth === currentMonth) {
+      if (holidayYear > currentYear || (holidayYear === currentYear && holidayMonth >= currentMonth)) {
         if (holidayDate > currentDate) {
           nextHoliday = holiday
           console.log("check current", nextHoliday)
           break;
-        } 
+        }
       } else if (holidayMonth > currentMonth) {
         nextHoliday = holiday
         break;
       }
+
     }
 
     if (nextHoliday) {
