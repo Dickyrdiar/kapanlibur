@@ -6,19 +6,23 @@ import Dashboard from "./components/Dashboard"
 import NavbarComponent from "./components/NavComponent"
 import { countdownHoliday } from "./controller/countdownHoliday"
 import 'moment/locale/id';
+import CalendarList from "./components/CalendarList";
+import Footer from "./components/Footer";
+import { lazy } from "react";
 
 function App() {
   const { countDown, loading, isVisible } = countdownHoliday()
-  moment.locale('id'); // Set the locale to Indonesian
+  moment.locale('id'); 
   const formattedDate = moment().format('l');
-  console.log("isVisible", isVisible); // Example formatting
+ 
+
+  const DashboardPage = lazy(() => import('./components/Dashboard'))
+  console.log("dahsboard", DashboardPage);
+
   return (
     <div>
-      {/* <ThemeProvider>
-        
-      </ThemeProvider> */}
       <NavbarComponent converty={isVisible} />
-      <Dashboard 
+      <Dashboard
         timeNow={formattedDate} 
         name={countDown?.name}
         date={moment(countDown?.date).format('ll')}
@@ -28,6 +32,8 @@ function App() {
         seconds={countDown?.seconds}
         loading={loading}
       />
+      <CalendarList />
+      <Footer />
     </div>
   )
 }

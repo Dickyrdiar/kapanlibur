@@ -1,77 +1,58 @@
-// const { useState } = require("react")
-import { useState } from "react"
+/* eslint-disable react/prop-types */
+import { useState } from "react";
 
-const Calendar = () => {
-  const currentDate = new Date()
-  const [currentMonth, setCurrentMonth] = useState(currentDate)
-  
+const Calendar = ({ holidays }) => {
+  const [currentMonth, setCurrentMonth] = useState(new Date());
 
-  const nextMonth = () => {
-    setCurrentMonth((prevMonth) => {
-      const nextMonthDate = new Date(prevMonth)
-      nextMonthDate.setMonth(prevMonth.getMonth() + 1)
-      return nextMonthDate
-    })
-  }
+  const daysInMonth = () => {
+    const year = currentMonth.getFullYear();
+    const month = currentMonth.getMonth() + 1;
+    const lastDay = new Date(year, month, 0).getDate();
+    return lastDay;
+  };
 
-  const prevMonth = () => {
-    setCurrentMonth((prevMonth) => {
-      const prevMonthDate = new Date(prevMonth)
-      prevMonthDate.setMonth(prevMonth.getMonth() - 1)
-      return prevMonthDate
-    })
-  }
+  const renderCalendar = () => {
+    const totalDays = daysInMonth();
+    const calendarDays = [];
 
-  const generateCalendar = () => {
-    const daysInMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate()
-    const firstDayOfWeek = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay()
-    const calendar = []
+    for (let day = 1; day <= totalDays; day++) {
+      const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+      const isHoliday = holidays?.some((holiday) => holiday?.holiday_date === date?.toISOString().split('T')[0]);
+      const isCurrentDay = date.toISOString().split('T')[0] === new Date().toISOString().split('T')[0];
 
-    for (let i = 0; i < firstDayOfWeek; i++) {
-      calendar.push(<div key={`empty-${1}`} className="text-center"></div>)
-    }
-
-    for (let day = 1; day <= daysInMonth; day++) {
-      console.log("day", day)
-      calendar.push(
-        <div key={`day-${day}`} className="text-center py-2">
-          {day}
+      calendarDays.push(
+        <div
+          key={day}
+          className={`p-2 text-center ${
+            isHoliday ? 'bg-red-500 text-white' : isCurrentDay ? 'bg-gray-300' : ''
+          }`}
+        >
+          <span>{day}</span>
         </div>
-      )
+      );
     }
-    return calendar
-  }
+
+    return calendarDays;
+  };
+
+  const handlePrevMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+  };
+
+  const handleNextMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
+  };
 
   return (
-    <div className="mx-auto mx-w-lg bg-white p-4 shadow-md rounded-lg">
+    <div className="w-full max-w-md mx-auto">
       <div className="flex justify-between mb-4">
-        <button
-          className="px-2 py-1 text-sm font-semibold text-gray-600"
-          onClick={prevMonth}
-        >
-          {'<'}
-        </button>
-
-        <h6 className="text-xl font-semibold">
-          {new Intl.DateTimeFormat('id-ID', {month: 'long', year: 'numeric'}).format(currentMonth)}
-        </h6>
-
-        <button 
-          className="px-2 py-1 text-sm font-semibold text-gray-600"
-          onClick={nextMonth}
-        >
-          {'>'}
-        </button>
+        <button onClick={handlePrevMonth}>{'<'}</button>
+        <div>{currentMonth.toLocaleDateString('default', { month: 'long', year: 'numeric' })}</div>
+        <button onClick={handleNextMonth}>{'>'}</button>
       </div>
-
-      <div className="grid grid-cols-7 gap-1">
-        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-          <div key={day} className="text-center font-semibold text-gray-600">{day}</div>
-        ))}
-        {generateCalendar()}
-      </div>
+      <div className="grid grid-cols-7 gap-1">{renderCalendar()}</div>
     </div>
-  )
-}
+  );
+};
 
-export default Calendar
+export default Calendar;
