@@ -8,7 +8,8 @@
     "build": "vite build && gziper compress ./build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test": "jest"
+    "test": "jest",
+    "generate-service-worker": "workbox generateSW workbox-config.js"
   },
   "babel": {
     "presets": [
@@ -56,6 +57,10 @@
     "postcss": "^8.4.31",
     "react-test-renderer": "^18.2.0",
     "tailwindcss": "^3.3.3",
-    "vite": "^4.4.5"
+    "vite": "^4.4.5",
+    "vite-plugin-pwa": "^0.16.5",
+    "workbox-cli": "^7.0.0",
+    "workbox-webpack-plugin": "^7.0.0",
+    "workbox-window": "^7.0.0"
   }
 }
