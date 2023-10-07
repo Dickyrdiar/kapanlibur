@@ -1,14 +1,16 @@
-import useFetchHariLibur from "../../customHook"
+/* eslint-disable react/prop-types */
 import Calendar from "../Calendar"
 import List from "../HolidayList"
 
-const CalendarList = () => {
-  const { data, loading } = useFetchHariLibur({
-    url: 'api',
-    method: 'GET'
-  })
+const CalendarList = ({ 
+  handlePrevMonth,
+  handleNextMonth,
+  renderCalendar,
+  currentMonth,
+  holidayList
+}) => {
 
-  console.log("fetch", data, loading);
+  console.log(holidayList === null);
 
   return (
     <>
@@ -22,10 +24,17 @@ const CalendarList = () => {
           <div className="w-2/4 h-1/4 pt-8 bg-white-300 shadow-lg tex-white p-4 mt-1 rounded">
             <div className="flex justify-between pt-8 py-8">
               <div>
-                <Calendar holidays={data} />
+                <Calendar 
+                  handleNextMonth={handleNextMonth}
+                  handlePrevMonth={handlePrevMonth}
+                  renderCalendar={renderCalendar}
+                  currentMonth={currentMonth}
+                />
               </div>
               <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                <List />
+                <List 
+                  Lists={holidayList}
+                />
               </div>
             </div>
           </div>
