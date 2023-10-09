@@ -8,7 +8,7 @@ export default defineConfig({
     VitePWA({
       manifest: {
         name: 'kapanlibur',
-        short_name: 'kapan',
+        short_name: 'kapanlibur',
         display: 'standalone',
         start_url: '.',
         background_color: '#ffffff',

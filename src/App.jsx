@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unknown-property */
-
+import React from "react"
 import moment from "moment"
 import Dashboard from "./components/Dashboard"
 import NavbarComponent from "./components/NavComponent"
@@ -21,6 +21,7 @@ function App() {
   } = ControllerCalendar()
   moment.locale('id'); 
   const formattedDate = moment().format('l');
+  console.log('count visible', isVisible);
 
   return (
     <div>

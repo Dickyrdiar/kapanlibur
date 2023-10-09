@@ -1,7 +1,3 @@
-/* eslint-disable no-unreachable */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/rules-of-hooks */
-
 import { useEffect } from "react"
 import { useState } from "react"
 import useFetchHariLibur from "../customHook"
@@ -31,7 +27,6 @@ export const countdownHoliday = () => {
       if (holidayYear > currentYear || (holidayYear === currentYear && holidayMonth >= currentMonth)) {
         if (holidayDate > currentDate) {
           nextHoliday = holiday
-          console.log("check current", nextHoliday)
           break;
         }
       } else if (holidayMonth > currentMonth) {

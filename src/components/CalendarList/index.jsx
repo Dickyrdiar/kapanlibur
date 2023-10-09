@@ -10,7 +10,7 @@ const CalendarList = ({
   holidayList
 }) => {
 
-  console.log(holidayList === null);
+  console.log(holidayList === null, "list holiday");
 
   return (
     <>
