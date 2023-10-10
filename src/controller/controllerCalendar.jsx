@@ -75,6 +75,8 @@ export const ControllerCalendar = () => {
     handleNextMonth,
     handlePrevMonth,
     renderCalendar,
-    currentMonth
+    currentMonth,
+    loading,
+    error
   }
 }
