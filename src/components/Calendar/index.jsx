@@ -8,7 +8,6 @@ const Calendar = (
   renderCalendar,
   currentMonth}
 ) => {
-  console
 
   return (
     <div className="w-full max-w-md mx-auto md:w-360 h-640">

@@ -21,8 +21,7 @@ function App() {
   } = ControllerCalendar()
   moment.locale('id'); 
   const formattedDate = moment().format('l');
-  console.log('count visible', isVisible);
-
+ 
   return (
     <div>
       <NavbarComponent converty={isVisible} />

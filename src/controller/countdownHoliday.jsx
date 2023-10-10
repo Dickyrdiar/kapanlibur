@@ -16,8 +16,6 @@ export const countdownHoliday = () => {
     const currentYear = currentDate.getFullYear()
     const filterNational = data?.filter((val) => val.is_national_holiday === true)
 
-    console.log(currentMonth);
-
     let nextHoliday = null
     for (const holiday of Object.values(filterNational || {})) {
       const holidayDate = new Date(holiday?.holiday_date)

@@ -9,7 +9,6 @@ const NavbarComponent = (converty) => {
     handleChangeLang
   } = ControllerNavbar()
 
-  console.log(converty, "status")
 
   {converty ? (
     <Converty />

@@ -1,5 +1,3 @@
-
-
 module.exports = {
   preset: 'vite-jest',
   testEnvironment: 'node',

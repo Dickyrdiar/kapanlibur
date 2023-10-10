@@ -8,12 +8,18 @@ const List = ({Lists}) => {
     {Lists === null ? (
       <div className="text-lg font-semibold">Nothing holiday in this month</div>
     ) : (
-      <ul>
-        <li className="mb-2">
-          <div className="text-lg font-semibold">Hari Natal</div>
-          <div className="text-gray-600">25 Desember 2023</div>
-        </li>
-      </ul>
+      <div className="container px-5 py-24 max-auto">
+        <div className="-my-8 divide-y-2 divide-gray-100">
+          <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
+            <div className="py-8 flex flex-wrap md:flex-nowrap">
+              <div className="md:flex-grow">
+                <h2 class="text-2xl font-medium text-gray-900 title-font mb-2">Hari Natal</h2>
+                <p class="leading-relaxed">25 - Desember - 2023</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     )}
   </div>
 }
