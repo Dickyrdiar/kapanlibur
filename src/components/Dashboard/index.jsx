@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import Spinner from "../Spinner"
+import { useTranslation } from "react-i18next"
+import React from "react"
 
 /* eslint-disable react/no-unknown-property */
 const Dashboard = ({
@@ -13,7 +15,8 @@ const Dashboard = ({
   seconds,
   loading
 }) => {
-
+  const { t } = useTranslation()
+  const LazyLoader = React.lazy(() => import('../Spinner'))
 
   return(
     <div className="relative isolate px-3 lg:px-8">
@@ -47,7 +50,7 @@ const Dashboard = ({
             <>
               {loading ? (
                 <div className="mb-10">
-                  <Spinner />
+                  <LazyLoader />
                 </div>
               ) : (
                 <>
@@ -59,7 +62,7 @@ const Dashboard = ({
                   </p>
 
                   <p className="mt-6 text-lg leading-8 text-gray-800 ">
-                    <span>{days} Hari,</span>  <span>{hours} Jam,</span>  <span>{minutes} Menit,</span> <span>{seconds} Detik</span> 
+                    <span>{days} {t('day')},</span>  <span>{hours} {t('hour')},</span>  <span>{minutes} {t('minutes')},</span> <span>{seconds} {t('second')}</span> 
                   </p>
                 </>
               )}

@@ -57,11 +57,12 @@ export const ControllerCalendar = () => {
       const holidayDate = new Date(val?.holiday_name)
       const holidayMonth = holidayDate.getMonth() + 3
 
-      console.log("holiday month", val);
-
       let listHoliday = []
       if (currentMonth === holidayMonth) {
-        listHoliday = val.holiday_date
+        listHoliday = {
+          name: val.holiday_name,
+          date: val.holiday_date
+        }
         break;
       }
 

@@ -1,43 +1,22 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import { useState, useEffect } from "react"
+import { useState } from "react"
+import { useTranslation } from 'react-i18next';
 
-export const controllerNavbar = () => {
-  const [selectedLAnguage, setSelectedLanguage] = useState("ID")
-  const [isOpen, setIsOpen] = useState(false)
-  const [isDark, setIsDark] = useState(false)
+export const ControllerNavbar = () => {
+  const [isOpen, setIsopen] = useState(false)
+  const {i18n} = useTranslation()
 
-  const language = ['ID', 'EN']
-
-  const handleLanguage = (lang) => {
-    setSelectedLanguage(lang)
-    setIsOpen(!isOpen)
+  const handleOpenLang = () => {
+    setIsopen(!isOpen)
   }
 
-  useEffect(() => {
-    const usePrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    const storedTheme = localStorage.getItem('theme')
-
-    if (storedTheme) {
-      setIsDark(storedTheme === 'dark')
-    } else {
-      setIsDark(usePrefersDark)
-    }
-  }, [])
-
-  const ToggleTheme = () => {
-    const newTheme = isDark ? 'light' : 'dark';
-    setIsDark(!isDark)
-
-    localStorage.setItem('theme', newTheme)
-    document.documentElement.classList.toggle('dark')
+  const handleChangeLang = (lng) => {
+    i18n.changeLanguage(lng)
   }
 
-  return { 
-    selectedLAnguage,
+  return {
     isOpen,
-    language,
-    handleLanguage,
-    ToggleTheme,
-    setIsOpen
+    handleOpenLang,
+    i18n,
+    handleChangeLang
   }
 }
