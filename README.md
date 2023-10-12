@@ -10,7 +10,6 @@ KapanLibur is a web application that provides information about holidays and spe
 - [Getting Started](#getting-started)
 - [Usage](#usage)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Demo
 
@@ -39,3 +38,21 @@ To get a local copy of this project up and running, follow these steps:
    ```shell
    git clone https://github.com/your-username/kapanlibur-app.git
    ```
+
+2. Change to the project directory:
+   ```shell
+     cd kapanlibur-app
+   ```
+3. Start the development server:
+   ```shel
+     npm run dev
+   ```
+
+## Usage
+
+This project is open-source, and you are free to use it as a template or contribute to its development. If you encounter any issues or have suggestions for improvements, please create an issue.
+
+
+## Contributing
+If you would like to contribute to this project, please follow the contributing guidelines.
+  
