@@ -1,4 +1,6 @@
-import React from "react"
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/no-unknown-property */
+
 import moment from "moment"
 import Dashboard from "./components/Dashboard"
 import NavbarComponent from "./components/NavComponent"
@@ -19,7 +21,7 @@ function App() {
   } = ControllerCalendar()
   moment.locale('id'); 
   const formattedDate = moment().format('l');
- 
+
   return (
     <div>
       <NavbarComponent converty={isVisible} />
