@@ -11,7 +11,6 @@ KapanLibur is a web application that provides information about holidays and spe
 - [Usage](#usage)
 - [Contributing](#contributing)
 
-
 ## Demo
 
 You can see a live demo of this project at [https://kapanlibur.vercel.app/](https://kapanlibur.vercel.app/).
@@ -39,6 +38,7 @@ To get a local copy of this project up and running, follow these steps:
    ```shell
    git clone https://github.com/your-username/kapanlibur-app.git
    ```
+
 2. Change to the project directory:
    ```shell
      cd kapanlibur-app

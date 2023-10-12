@@ -2,8 +2,7 @@ import axios from "axios"
 import { useEffect } from "react"
 import { useState } from "react"
 
-// axios.defaults.baseURL = process.env.HOLIDAY_URL
-axios.defaults.baseURL = "https://api-harilibur.vercel.app/"
+axios.defaults.baseURL = import.meta.env.VITE_HOLIDAY_URL
 
 const useFetchHariLibur = ({url, method}) => {
   const [data, setdata] = useState(null)
