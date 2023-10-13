@@ -36,8 +36,8 @@ function App() {
         loading={loading}
       />
       <CalendarList
-        handlePrevMonth={handlePrevMonth}
-        handleNextMonth={handleNextMonth}
+        handlePrevMonth={() => handlePrevMonth}
+        handleNextMonth={() => handleNextMonth}
         currentMonth={currentMonth}
         renderCalendar={renderCalendar()}
         holidayList={listHoliday}

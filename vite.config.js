@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa';
-import { dependencies } from 'webpack';
+import { dependencies } from './package.json'
 
 const exclVendors = ['react', 'react-router-dom', 'react-dom']
 function renderChunks(deps) {

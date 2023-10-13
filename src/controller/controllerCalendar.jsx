@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useEffect } from "react"
+import { useMemo } from "react"
 import { useState } from "react"
 import useFetchHariLibur from "../customHook"
 
@@ -55,7 +56,7 @@ export const ControllerCalendar = () => {
   useEffect(() => {
     for (const val of Object.values(filterNational || {})) {
       const holidayDate = new Date(val?.holiday_name)
-      const holidayMonth = holidayDate.getMonth() + 3
+      const holidayMonth = holidayDate.getMonth() + 1
 
       let listHoliday = []
       if (currentMonth === holidayMonth) {
