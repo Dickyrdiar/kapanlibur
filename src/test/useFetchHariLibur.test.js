@@ -1,6 +1,6 @@
-const { renderHook } = require("@testing-library/react")
-const { default: axios } = require("axios")
-const { default: useFetchHariLibur } = require("../customHook")
+import { axios } from 'axios'
+import { useFetchHariLibur  } from '../customHook'
+import { renderHook } from '@testing-library/react'
 
 jest.mock('axios')
 

@@ -12,7 +12,7 @@ export const countdownHoliday = () => {
 
   useEffect(() => {
     const currentDate = new Date()
-    const currentMonth = currentDate.getMonth() +1
+    const currentMonth = currentDate.getMonth() + 1
     const currentYear = currentDate.getFullYear()
     const filterNational = data?.filter((val) => val.is_national_holiday === true)
 
