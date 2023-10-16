@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import { useEffect } from "react"
-import { useMemo } from "react"
 import { useState } from "react"
 import useFetchHariLibur from "../customHook"
 
@@ -22,13 +21,6 @@ export const ControllerCalendar = () => {
     return lastDay
   }
 
-  const handlePrevMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))
-  }
-
-  const handleNextMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))
-  }
 
   const renderCalendar = () => {
     const totalDays = daysInMont()
@@ -52,6 +44,16 @@ export const ControllerCalendar = () => {
 
     return calendarDays
   }
+
+  const handlePrevMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))
+  }
+
+  const handleNextMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))
+  }
+
+  console.log("current month", currentMonth);
 
   useEffect(() => {
     for (const val of Object.values(filterNational || {})) {

@@ -33,25 +33,25 @@ const CalendarList = ({
                 <div className="p-8">
                   <div className="md:flex-grow">
                     {holidayList === null && holidayList?.length !== 1 ? (
-                      <div className="text-lg font-semibold">
-                        <p className="mt-6 text-lg text-center leading-8 text-gray-600">
+                      <div className="text-lg font-semibold my-1">
+                        <p className="text-lg text-center leading-8 text-gray-600">
                           List Hari libur :
                         </p>
                         <img src={ImageCalendar} alt="image calendar" />
                       </div>
                     ) : (
                       <>
-                      {holidayList?.map((val) => (
-                        <>
-                          <h5 className="text-2xl font-medium text-gray-900 title-font mb-2">
-                            {val.name}
-                          </h5>
-                          <p className="leading-relaxed">
-                            {val.date}
-                          </p>
-                        </>
-                      ))}
-                    </>
+                        {holidayList?.map((val) => (
+                          <>
+                            <h5 className="text-2xl font-medium text-gray-900 title-font mb-2">
+                              {val.name}
+                            </h5>
+                            <p className="leading-relaxed">
+                              {val.date}
+                            </p>
+                          </>
+                        ))}
+                      </>
                     )}
                   </div>
                 </div>
