@@ -9,6 +9,7 @@ import 'moment/locale/id';
 import CalendarList from "./components/CalendarList";
 import Footer from "./components/Footer";
 import { ControllerCalendar } from "./controller/controllerCalendar";
+import { lazy } from "react";
 
 function App() {
   const { countDown, loading, isVisible } = countdownHoliday()
@@ -21,6 +22,9 @@ function App() {
   } = ControllerCalendar()
   moment.locale('id'); 
   const formattedDate = moment().format('l');
+
+  const DashboardComponent = lazy(() => import('./components/Dashboard'))
+  console.log("dashboard lazy", DashboardComponent);
 
   return (
     <div>
@@ -35,9 +39,10 @@ function App() {
         seconds={countDown?.seconds}
         loading={loading}
       />
+
       <CalendarList
-        handlePrevMonth={handlePrevMonth}
-        handleNextMonth={handleNextMonth}
+        handlePrevMonth={() => handlePrevMonth()}
+        handleNextMonth={() => handleNextMonth()}
         currentMonth={currentMonth}
         renderCalendar={renderCalendar()}
         holidayList={listHoliday}
