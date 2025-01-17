@@ -10,6 +10,7 @@ import CalendarList from "./components/CalendarList";
 import Footer from "./components/Footer";
 import { ControllerCalendar } from "./controller/controllerCalendar";
 import { lazy } from "react";
+import 'moment/locale/id'; 
 
 function App() {
   const { countDown, loading, isVisible } = countdownHoliday()
@@ -21,7 +22,7 @@ function App() {
     renderCalendar
   } = ControllerCalendar()
   moment.locale('id'); 
-  const formattedDate = moment().format('l');
+  const formattedDate = moment().format('ll');
 
   const DashboardComponent = lazy(() => import('./components/Dashboard'))
   console.log("dashboard lazy", DashboardComponent);
@@ -40,13 +41,15 @@ function App() {
         loading={loading}
       />
 
-      <CalendarList
-        handlePrevMonth={() => handlePrevMonth()}
-        handleNextMonth={() => handleNextMonth()}
-        currentMonth={currentMonth}
-        renderCalendar={renderCalendar()}
-        holidayList={listHoliday}
-      />
+      <div className="mt-[-70px]">
+        <CalendarList
+          handlePrevMonth={handlePrevMonth} 
+          handleNextMonth={handleNextMonth} 
+          currentMonth={currentMonth}
+          renderCalendar={renderCalendar()} 
+          holidayList={listHoliday}
+        />
+      </div>
       <Footer />
     </div>
   )
