@@ -14,7 +14,7 @@ export const countdownHoliday = () => {
     const currentDate = new Date()
     const currentMonth = currentDate.getMonth() + 1
     const currentYear = currentDate.getFullYear()
-    const filterNational = data?.filter((val) => val.is_national_holiday === true)
+    const filterNational = data?.filter((val) => val.is_national_holiday === true).reverse()
 
     let nextHoliday = null
     for (const holiday of Object.values(filterNational || {})) {
@@ -66,6 +66,8 @@ export const countdownHoliday = () => {
       }, 1000)
     }
   },[data])
+
+  console.log("countdown", countDown)
 
   return {
     countDown,

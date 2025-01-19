@@ -11,7 +11,7 @@ export const ControllerCalendar = () => {
     url: 'api',
     method: 'GET'
   })
-  const filterNational = data?.filter((val) => val.is_national_holiday === true)
+  const filterNational = data?.filter((val) => val.is_national_holiday === true).reverse()
   
   const daysInMont = () => {
     const year = currentMonth.getFullYear()
@@ -27,14 +27,14 @@ export const ControllerCalendar = () => {
     const calendarDays = []
 
     for (let day = 1; day <= totalDays; day++) {
-      const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+      const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day + 1);
       const isHoliday = filterNational?.some((holiday) => holiday?.holiday_date === date?.toISOString().split('T')[0]);
       const isCurrentDay = date.toISOString().split('T')[0] === new Date().toISOString().split('T')[0];
 
       calendarDays.push(
         <div key={day}
           className={`p-2 text-center ${
-            isHoliday ? 'bg-red-500 text-white' : isCurrentDay ? 'bg-gray-300' : ''
+            isHoliday ? 'bg-red-600 rounded-md text-white' : isCurrentDay ? 'bg-gray-300 rounded-md' : ''
           }`}
         >
           <span>{day}</span>
