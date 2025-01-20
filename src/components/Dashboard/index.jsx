@@ -55,7 +55,7 @@ const Dashboard = ({
                 </div>
               ) : (
                 <>
-                  <h1 className="text-4xl font-bold trancking-light text-gray-900 sm:text-6xl">
+                  <h1 className="text-2xl w-[100%] font-bold trancking-light text-gray-900 sm:text-6xl">
                     {name}
                   </h1>
                   <p className="mt-6 text-lg leading-8 text-gray-600">

@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
-import Calendar from "../Calendar";
 import ImageCalendar from "../../assets/image/calendar-icons2.png";
 import 'moment/locale/id';
 import moment from "moment";
+import CalendarComponent from "../Calendar";
 
 
 const CalendarList = ({
@@ -28,7 +28,7 @@ const CalendarList = ({
         <div className="w-[400px] bg-white shadow-lg rounded-lg p-4 mt-1">
           {/* Calendar Component */}
           <div className="flex justify-center pt-8">
-            <Calendar
+            <CalendarComponent
               handleNextMonth={handleNextMonth}
               handlePrevMonth={handlePrevMonth}
               renderCalendar={renderCalendar}
@@ -52,11 +52,11 @@ const CalendarList = ({
             ) : (
               <div className="space-y-4">
                 {holidayList?.map((val, index) => (
-                  <div key={index} className="text-center">
-                    <h5 className="text-2xl font-medium text-gray-900">
-                      {val.name}
+                  <div key={index} className="text-left">
+                    <h5 className="text-[15px] font-medium text-gray-900">
+                      {val.holiday_name}
                     </h5>
-                    <p className="text-gray-600">{val.date}</p>
+                    <p className="text-gray-600 text-[12px]">{val.holiday_date}</p>
                   </div>
                 ))}
               </div>

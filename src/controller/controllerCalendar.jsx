@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 import { useState } from "react"
 import useFetchHariLibur from "../customHook"
+import { isEqual } from 'lodash'; 
+
 
 export const ControllerCalendar = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date())
@@ -11,7 +13,10 @@ export const ControllerCalendar = () => {
     url: 'api',
     method: 'GET'
   })
-  const filterNational = data?.filter((val) => val.is_national_holiday === true).reverse()
+
+
+  const filterNational = data?.filter((val) => val?.is_national_holiday === true).reverse()
+
   
   const daysInMont = () => {
     const year = currentMonth.getFullYear()
@@ -22,62 +27,85 @@ export const ControllerCalendar = () => {
   }
 
 
-  const renderCalendar = () => {
-    const totalDays = daysInMont()
-    const calendarDays = []
+  // const renderCalendar = () => {
+  //   const totalDays = daysInMont()
+  //   const calendarDays = []
 
-    for (let day = 1; day <= totalDays; day++) {
-      const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day + 1);
-      const isHoliday = filterNational?.some((holiday) => holiday?.holiday_date === date?.toISOString().split('T')[0]);
-      const isCurrentDay = date.toISOString().split('T')[0] === new Date().toISOString().split('T')[0];
+  //   const daysOfWeek = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
-      calendarDays.push(
-        <div key={day}
-          className={`p-2 text-center ${
-            isHoliday ? 'bg-red-600 rounded-md text-white' : isCurrentDay ? 'bg-gray-300 rounded-md' : ''
-          }`}
-        >
-          <span>{day}</span>
-        </div>
-      )
-    }
+  //   const renderDaysNames = () => {
+  //     return (
+  //       <div className="flex">
+  //         {daysOfWeek?.map((dayName, index) => (
+  //           <div key={index} className="flex-1 p-2 text-center font-bold">
+  //             {dayName}
+  //           </div>
+  //         ))}
+  //       </div>
+  //     )
+  //   }
 
-    return calendarDays
-  }
+  //   const firstDayOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay()
+  //   const offset = (3 - firstDayOfMonth + 7) % 7
+  //   for (let i = 0; i < offset; i++) {
+  //     calendarDays.push(
+  //       <div key={`empty-${i}`} className="p-2 text-center">
+
+  //       </div>
+  //     )
+  //   }
+
+  //   for (let day = 1; day <= totalDays; day++) {
+  //     const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day + 1);
+  //     const isHoliday = filterNational?.some((holiday) => holiday?.holiday_date === date?.toISOString().split('T')[0]);
+  //     const isCurrentDay = date.toISOString().split('T')[0] === new Date().toISOString().split('T')[0];
+
+  //     calendarDays.push(
+  //       <div key={day}
+  //         className={`p-2 text-center full ${
+  //           isHoliday ? 'bg-red-600 rounded-md text-white' : isCurrentDay ? 'bg-gray-300 rounded-md' : ''
+  //         }`}
+  //       >
+  //         <span>{day}</span>
+  //         <br />
+  //         {/* <span className="text-sm">{dayOfWeek}</span> Tampilkan nama hari */}
+  //       </div>
+  //     );
+  //   }
+
+  //   return (
+  //     <div className="items-center">
+  //       {renderDaysNames()}
+  //       <div className="grid grid-cols-7  w-[250px] gap-1">{calendarDays}</div>
+  //     </div>
+  //   )
+  // }
 
   const handlePrevMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))
-  }
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+  };
 
   const handleNextMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))
-  }
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
+  };
 
-  console.log("current month", currentMonth);
+  const filteredResult = useMemo(() => {
+    return filterNational?.filter((val) => {
+      const holidayDate = new Date(val?.holiday_date);
+      return holidayDate.getMonth() === new Date().getMonth();
+    }) || [];
+  }, [filterNational]);
 
   useEffect(() => {
-    for (const val of Object.values(filterNational || {})) {
-      const holidayDate = new Date(val?.holiday_name)
-      const holidayMonth = holidayDate.getMonth() + 1
-
-      let listHoliday = []
-      if (currentMonth === holidayMonth) {
-        listHoliday = {
-          name: val.holiday_name,
-          date: val.holiday_date
-        }
-        break;
-      }
-
-      setListholiday(listHoliday)
+    if (!isEqual(listHoliday, filteredResult)) {
+      setListholiday(filteredResult)
     }
-  }, [])
+  }, [filteredResult])
 
   return {
     listHoliday,
     handleNextMonth,
     handlePrevMonth,
-    renderCalendar,
     currentMonth,
     loading,
     error
