@@ -11,6 +11,7 @@ import Footer from "./components/Footer";
 import { ControllerCalendar } from "./controller/controllerCalendar";
 import { lazy } from "react";
 import 'moment/locale/id'; 
+import 'antd/dist/reset.css'; // Impor gaya CSS Ant Design
 
 function App() {
   const { countDown, loading, isVisible } = countdownHoliday()
@@ -19,7 +20,6 @@ function App() {
     handleNextMonth,
     handlePrevMonth,
     currentMonth,
-    renderCalendar
   } = ControllerCalendar()
   moment.locale('id'); 
   const formattedDate = moment().format('ll');
@@ -46,7 +46,7 @@ function App() {
           handlePrevMonth={handlePrevMonth} 
           handleNextMonth={handleNextMonth} 
           currentMonth={currentMonth}
-          renderCalendar={renderCalendar()} 
+          // renderCalendar={renderCalendar()} 
           holidayList={listHoliday}
         />
       </div>
