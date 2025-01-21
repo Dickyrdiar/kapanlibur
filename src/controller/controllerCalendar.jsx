@@ -82,17 +82,19 @@ export const ControllerCalendar = () => {
   // }
 
   const handlePrevMonth = () => {
+    console.log("Previous month button clicked");
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
   };
-
+  
   const handleNextMonth = () => {
+    console.log("Next month button clicked");
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
   };
 
   const filteredResult = useMemo(() => {
     return filterNational?.filter((val) => {
       const holidayDate = new Date(val?.holiday_date);
-      return holidayDate.getMonth() === new Date().getMonth();
+      return holidayDate.getMonth() === currentMonth.getMonth();
     }) || [];
   }, [filterNational]);
 
@@ -101,6 +103,8 @@ export const ControllerCalendar = () => {
       setListholiday(filteredResult)
     }
   }, [filteredResult])
+
+  console.log("current month", currentMonth);
 
   return {
     listHoliday,

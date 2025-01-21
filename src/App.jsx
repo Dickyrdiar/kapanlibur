@@ -1,31 +1,36 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unknown-property */
 
-import moment from "moment"
-import Dashboard from "./components/Dashboard"
-import NavbarComponent from "./components/NavComponent"
-import { countdownHoliday } from "./controller/countdownHoliday"
-import 'moment/locale/id';
+import React, { lazy, useEffect } from "react";
+import moment from "moment";
+import 'moment/locale/id'; // Impor locale Bahasa Indonesia
+import 'antd/dist/reset.css'; // Impor gaya CSS Ant Design
+import Dashboard from "./components/Dashboard";
+import NavbarComponent from "./components/NavComponent";
+import { countdownHoliday } from "./controller/countdownHoliday";
 import CalendarList from "./components/CalendarList";
 import Footer from "./components/Footer";
 import { ControllerCalendar } from "./controller/controllerCalendar";
-import { lazy } from "react";
-import 'moment/locale/id'; 
-import 'antd/dist/reset.css'; // Impor gaya CSS Ant Design
+
+// Set locale global ke Bahasa Indonesia
+moment.locale('id');
 
 function App() {
-  const { countDown, loading, isVisible } = countdownHoliday()
+  const { countDown, loading, isVisible } = countdownHoliday();
   const {
     listHoliday,
     handleNextMonth,
     handlePrevMonth,
     currentMonth,
-  } = ControllerCalendar()
-  moment.locale('id'); 
+  } = ControllerCalendar();
+
+  // Format tanggal dengan locale 'id'
   const formattedDate = moment().format('ll');
 
-  const DashboardComponent = lazy(() => import('./components/Dashboard'))
-  console.log("dashboard lazy", DashboardComponent);
+  const DashboardComponent = lazy(() => import('./components/Dashboard'));
+  useEffect(() => {
+    document.title = "KapanLibur - Your Holiday Planner"
+  }, [])
 
   return (
     <div>
@@ -46,13 +51,12 @@ function App() {
           handlePrevMonth={handlePrevMonth} 
           handleNextMonth={handleNextMonth} 
           currentMonth={currentMonth}
-          // renderCalendar={renderCalendar()} 
           holidayList={listHoliday}
         />
       </div>
       <Footer />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
