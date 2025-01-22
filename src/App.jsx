@@ -3,17 +3,16 @@
 
 import React, { lazy, useEffect } from "react";
 import moment from "moment";
-import 'moment/locale/id'; // Impor locale Bahasa Indonesia
-import 'antd/dist/reset.css'; // Impor gaya CSS Ant Design
+import 'moment/locale/id'; 
+import 'antd/dist/reset.css'; 
 import Dashboard from "./components/Dashboard";
 import NavbarComponent from "./components/NavComponent";
 import { countdownHoliday } from "./controller/countdownHoliday";
 import CalendarList from "./components/CalendarList";
 import Footer from "./components/Footer";
 import { ControllerCalendar } from "./controller/controllerCalendar";
+import { intlDateFormatId } from "./shared/internationalDate/intlDateFormat";
 
-// Set locale global ke Bahasa Indonesia
-moment.locale('id');
 
 function App() {
   const { countDown, loading, isVisible } = countdownHoliday();
@@ -25,20 +24,21 @@ function App() {
   } = ControllerCalendar();
 
   // Format tanggal dengan locale 'id'
-  const formattedDate = moment().format('ll');
+  const formattedDate = moment().format('LL');
 
-  const DashboardComponent = lazy(() => import('./components/Dashboard'));
   useEffect(() => {
-    document.title = "KapanLibur - Your Holiday Planner"
-  }, [])
+    document.title = "KapanLibur - Your Holiday Planner";
+  }, []);
+
+  console.log("format date", countDown)
 
   return (
     <div>
       <NavbarComponent converty={isVisible} />
       <Dashboard
-        timeNow={formattedDate} 
+        timeNow={intlDateFormatId(new Date())} 
         name={countDown?.name}
-        date={moment(countDown?.date).format('ll')}
+        date={intlDateFormatId(countDown?.date)}
         days={countDown?.days}
         hours={countDown?.hours}
         minutes={countDown?.minutes}

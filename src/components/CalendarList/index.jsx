@@ -4,6 +4,8 @@ import 'moment/locale/id';
 import moment from "moment";
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useSelector } from "react-redux";
+import { useState } from "react";
+import { intlDateFormatId } from "../../shared/internationalDate/intlDateFormat";
 moment.locale('id');
 
 const CalendarList = ({
@@ -14,6 +16,7 @@ const CalendarList = ({
 }) => {
   moment.locale('id');
   const theme = useSelector((state) => state.theme.theme);
+  const [isDisabled, setIsDisabled] = useState(false)
 
   return (
     <div className={`pb-10 mb-8 h-[400px] ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
@@ -31,7 +34,7 @@ const CalendarList = ({
           <div className="flex items-center justify-between mb-6">
             <FaChevronLeft
               className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'} z-10 cursor-pointer`}
-              onClick={handlePrevMonth}
+              onClick={parseInt(currentMonth.toLocaleDateString('default', { year: 'numeric' }), 10) === new Date().getFullYear() - 1 ? !isDisabled :  handlePrevMonth}
             />
 
             <div className={`text-lg font-semibold ${theme === 'dark' ? 'text-gray-300' : 'text-gray-800'}`}>
@@ -42,7 +45,7 @@ const CalendarList = ({
 
             <FaChevronRight
               className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'} z-10 cursor-pointer`}
-              onClick={handleNextMonth}
+              onClick={currentMonth.toLocaleDateString('default', { month: 'long'}) === "December"  ? !isDisabled : handleNextMonth}
             />
           </div>
 
@@ -70,7 +73,7 @@ const CalendarList = ({
                       {val.holiday_name}
                     </h5>
                     <p className={`text-xs ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                      {moment(val.holiday_date).format("LL")}
+                      {intlDateFormatId(val.holiday_date)}
                     </p>
                   </div>
                 ))}
