@@ -56,7 +56,7 @@ const Dashboard = ({
           >
             <p className={`font-semibold ${theme === 'dark' ? ' text-white' : 'text-gray-900'}`}>
               <span className="absolute inset-0" aria-hidden="true" />
-              Hari ini Tanggal: {moment(timeNow).format("MMMM Do YYYY")}
+              Hari ini Tanggal: {timeNow}
             </p>
           </div>
         </div>
