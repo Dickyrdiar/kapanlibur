@@ -23,14 +23,10 @@ function App() {
     currentMonth,
   } = ControllerCalendar();
 
-  // Format tanggal dengan locale 'id'
-  const formattedDate = moment().format('LL');
 
   useEffect(() => {
-    document.title = "KapanLibur - Your Holiday Planner";
+    document.title = "KapanLibur - Planner of your Vacation days and Leave days";
   }, []);
-
-  console.log("format date", countDown)
 
   return (
     <div>
