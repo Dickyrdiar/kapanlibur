@@ -24,7 +24,7 @@ const Dashboard = ({
 
   return (
     <div
-      className={`relative isolate px-3 lg:px-8 ${
+      className={`relative isolate px-3 lg:px-8 h-[900px] ${
         theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-gray-900"
       }`}
     >
