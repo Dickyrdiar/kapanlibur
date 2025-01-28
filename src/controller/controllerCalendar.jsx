@@ -40,13 +40,26 @@ export const ControllerCalendar = () => {
   }, [filterNational]);
 
   useEffect(() => {
-    if (!isEqual(listHoliday, filteredResult)) {
-      setListholiday(filteredResult)
+    const adjustedHolidays = adjustHolidayDates(filteredResult);
+    if (!isEqual(listHoliday, adjustedHolidays)) {
+      setListholiday(adjustedHolidays);
+      setDayLeave(adjustedHolidays.flatMap(val => {
+        const prevDay = new Date(val.prevDay);
+        const nextDay = new Date(val.nextDay);
+        const days = [];
+        if (prevDay.getDay() !== 0 && prevDay.getDay() !== 6) { // Exclude Sundays and Saturdays
+          days.push(val.prevDay);
+        }
+        if (nextDay.getDay() !== 0 && nextDay.getDay() !== 6) { // Exclude Sundays and Saturdays
+          days.push(val.nextDay);
+        }
+        return days;
+      }));
     }
-  }, [filteredResult])
+  }, [filteredResult, listHoliday])
 
-  const adjustHolidayDates = (holiday) => {
-    return holiday?.map((val) => {
+  const adjustHolidayDates = (holidays) => {
+    return holidays?.map((val) => {
       const holidayDate = new Date(val?.holiday_date)
       const prevDay = new Date(holidayDate)
       prevDay.setDate(holidayDate.getDate() - 1); // Subtract 1 day
@@ -54,7 +67,7 @@ export const ControllerCalendar = () => {
       nextDay.setDate(holidayDate.getDate() + 1); // Add 1 day
 
       return {
-        ...holiday,
+        ...val,
         prevDay: prevDay.toISOString().split("T")[0], // Format as YYYY-MM-DD
         nextDay: nextDay.toISOString().split("T")[0], // Format as YYYY-MM-DD
       };
@@ -68,6 +81,7 @@ export const ControllerCalendar = () => {
     handlePrevMonth,
     currentMonth,
     loading,
-    error
+    error,
+    dayLeave
   }
 }

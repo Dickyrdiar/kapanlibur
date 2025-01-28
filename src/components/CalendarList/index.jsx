@@ -13,70 +13,148 @@ const CalendarList = ({
   handleNextMonth,
   currentMonth,
   holidayList,
+  dayLeave
 }) => {
-  moment.locale('id');
   const theme = useSelector((state) => state.theme.theme);
-  const [isDisabled, setIsDisabled] = useState(false)
+  const [isDisabled] = useState(false);
+  
+  // Date validation helpers
+  const isCurrentYearMinusOne = moment(currentMonth).year() === moment().year() - 1;
+  const isDecember = moment(currentMonth).month() === 11;
 
   return (
-    <div className={`pb-10 mb-8 h-[400px] ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
+    <div className={`min-h-screen relative ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'} p-4 sm:p-6`}>
+      {/* Gradient Background */}
+      <div
+        className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+        aria-hidden="true"
+      >
+        <div
+          className={`relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] ${
+            theme === "dark"
+              ? "bg-gradient-to-tr from-[#4a5568] to-[#2d3748]"
+              : "bg-gradient-to-tr from-[#ff80b5] to-[#9089fc]"
+          } opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]`}
+          style={{
+            clipPath:
+              "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
+          }}
+        />
+      </div>
       {/* Heading */}
-      <div className="text-center my-6">
-        <p className={`text-md ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-          Daftar Tanggal Merah:
+      <div className="text-center mb-8 relative z-10">
+        <p className={`text-lg font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+          Daftar Tanggal Merah
         </p>
       </div>
 
       {/* Calendar Container */}
-      <div className="flex justify-center px-4">
-        <div className={`w-full max-w-md shadow-lg rounded-lg p-6 ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
+      <div className="flex justify-center relative z-10">
+        <div className={`w-full max-w-3xl rounded-xl shadow-xl ${
+          theme === 'dark' ? 'bg-gray-800 text-gray-100' : 'bg-white text-gray-800'
+        } p-6`}>
           {/* Calendar Navigation */}
-          <div className="flex items-center justify-between mb-6">
-            <FaChevronLeft
-              className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'} z-10 cursor-pointer`}
-              onClick={parseInt(currentMonth.toLocaleDateString('default', { year: 'numeric' }), 10) === new Date().getFullYear() - 1 ? !isDisabled :  handlePrevMonth}
-            />
+          <div className="flex items-center justify-between mb-8 px-2">
+            <button
+              onClick={isCurrentYearMinusOne ? undefined : handlePrevMonth}
+              disabled={isCurrentYearMinusOne}
+              className={`p-2 rounded-lg ${
+                theme === 'dark' 
+                  ? 'hover:bg-gray-700 disabled:opacity-40' 
+                  : 'hover:bg-gray-100 disabled:opacity-40'
+              } transition-colors`}
+            >
+              <FaChevronLeft className="w-5 h-5" />
+            </button>
 
-            <div className={`text-lg font-semibold ${theme === 'dark' ? 'text-gray-300' : 'text-gray-800'}`}>
-              {currentMonth instanceof Date
-                ? currentMonth.toLocaleDateString('default', { month: 'long', year: 'numeric' })
-                : "Invalid Date"}
-            </div>
+            <h2 className="text-xl font-semibold text-center mx-4">
+              {moment(currentMonth).format('MMMM YYYY')}
+            </h2>
 
-            <FaChevronRight
-              className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'} z-10 cursor-pointer`}
-              onClick={currentMonth.toLocaleDateString('default', { month: 'long'}) === "December"  ? !isDisabled : handleNextMonth}
-            />
+            <button
+              onClick={isDecember ? undefined : handleNextMonth}
+              disabled={isDecember}
+              className={`p-2 rounded-lg ${
+                theme === 'dark' 
+                  ? 'hover:bg-gray-700 disabled:opacity-40' 
+                  : 'hover:bg-gray-100 disabled:opacity-40'
+              } transition-colors`}
+            >
+              <FaChevronRight className="w-5 h-5" />
+            </button>
           </div>
 
-          {/* Holiday List */}
-          <div className="mt-8">
-            {holidayList === null || holidayList.length === 0 ? (
-              <div className="text-center">
-                <p className={`text-lg ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} mb-4`}>
-                  List Hari Libur:
-                </p>
+          {/* Content */}
+          <div className="space-y-8">
+            {(!holidayList?.length && !dayLeave?.length) ? (
+              <div className="py-12 text-center">
                 <img
                   src={ImageCalendar}
-                  alt="calendar"
-                  className="mx-auto w-24 h-24"
+                  alt="No events"
+                  className="mx-auto w-32 h-32 opacity-75 mb-4"
                 />
+                <p className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
+                  Tidak ada acara yang terjadwal
+                </p>
               </div>
             ) : (
-              <div className="space-y-3">
-                {holidayList.map((val, index) => (
-                  <div
-                    key={index}
-                    className={`p-3 rounded-lg ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-50'}`}
-                  >
-                    <h5 className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'}`}>
-                      {val.holiday_name}
-                    </h5>
-                    <p className={`text-xs ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                      {intlDateFormatId(val.holiday_date)}
-                    </p>
+              <div className="grid md:grid-cols-2 gap-8">
+                {/* Holidays Section */}
+                <div>
+                  <h3 className={`text-lg font-medium mb-4 ${
+                    theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    Hari Libur
+                  </h3>
+                  <div className="space-y-3">
+                    {holidayList?.map((val, index) => (
+                      <div
+                        key={index}
+                        className={`p-4 rounded-lg transition-colors ${
+                          theme === 'dark' 
+                            ? 'bg-gray-700 hover:bg-gray-600' 
+                            : 'bg-gray-50 hover:bg-gray-100'
+                        }`}
+                      >
+                        <div className="font-medium text-sm">
+                          {val.holiday_name}
+                        </div>
+                        <div className={`text-xs ${
+                          theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+                        }`}>
+                          {intlDateFormatId(val.holiday_date)}
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                </div>
+
+                {/* Leave Days Section */}
+                <div>
+                  <h3 className={`text-lg font-medium mb-4 ${
+                    theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    Tanggal Cuti
+                  </h3>
+                  <div className="space-y-3">
+                    {dayLeave?.map((date, index) => (
+                      <div
+                        key={index}
+                        className={`p-4 rounded-lg transition-colors ${
+                          theme === 'dark' 
+                            ? 'bg-gray-700 hover:bg-gray-600' 
+                            : 'bg-gray-50 hover:bg-gray-100'
+                        }`}
+                      >
+                        <div className={`text-sm ${
+                          theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                        }`}>
+                          {intlDateFormatId(date)}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             )}
           </div>
