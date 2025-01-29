@@ -2,28 +2,28 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const Footer = () => {
-  const theme = useSelector((state) => state.theme.theme); // Get theme from Redux
+  const theme = useSelector((state) => state.theme.theme);
 
   return (
-    <footer className={`flex justify-center mt-[-40px] items-center pt-4 ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
-      <typography color="gray">
-        <p className={`text-md ${theme === 'dark' ? 'text-gray-300' : 'text-gray-900'}`}>
-          Copyright © {new Date().getFullYear()} -{" "}
+    <footer className={`flex justify-center items-center py-4 ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
+      <div className="text-center">
+        <p className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+          Copyright © {new Date().getFullYear()} - {" "}
           <a
             href="https://github.com/Dickyrdiar/kapanlibur"
-            className="no-underline hover:no-underline"
+            className={`hover:underline ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`}
           >
             GitHub
           </a>{" "}
           and API from{" "}
           <a
             href="https://api-harilibur.vercel.app/"
-            className="no-underline hover:no-underline"
+            className={`hover:underline ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`}
           >
-            api harilibur
+            API Harilibur
           </a>
         </p>
-      </typography>
+      </div>
     </footer>
   );
 };
