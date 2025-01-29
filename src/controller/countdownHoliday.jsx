@@ -69,8 +69,6 @@ export const countdownHoliday = () => {
     }
   },[data])
 
-  console.log("countdown", countDown)
-
   return {
     countDown,
     loading,
