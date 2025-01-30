@@ -1,58 +1,83 @@
-# KapanLibur App
 
-KapanLibur is a web application that provides information about holidays and special dates and we have countdown timer to close holiday. This project is built with React.js (version 18) and JavaScript.
+# 🗓️ KapanLibur - Holiday Countdown & Calendar
 
-## Table of Contents
+A web application for tracking holidays and special dates with countdown timers. Built with React.js and modern web technologies.
 
-- [Demo](#demo)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-- [Usage](#usage)
-- [Contributing](#contributing)
+[![Live Demo](https://img.shields.io/badge/demo-live-green?style=for-the-badge)](https://kapanlibur.vercel.app/)
+![React Version](https://img.shields.io/badge/react-18-blue.svg?style=for-the-badge&logo=react)
 
-## Demo
+## 🌟 Features
 
-You can see a live demo of this project at [https://kapanlibur.vercel.app/](https://kapanlibur.vercel.app/).
+- 📅 Comprehensive holiday calendar
+- ⏳ Countdown timer to upcoming holidays
+- 🔍 Search/filter holidays by name
+- 🏷️ Categorization of national vs non-national holidays
+- 📱 Fully responsive design
+- 🧪 Unit testing with Jest
 
-## Features
+## 🛠 Tech Stack
 
-- View a list of holidays and special dates.
-- Filter holidays by national and non-national.
-- Search for specific holidays.
-- Responsive design for mobile and desktop.
+- **Frontend**: 
+  - React 18 (Functional Components + Hooks)
+  - JavaScript (ES6+)
+  - Axios for HTTP requests
+- **Testing**:
+  - Jest
+  - React Testing Library
+- **Build**:
+  - Vite (or create-react-app if applicable)
+- **Hosting**:
+  - Vercel (for demo deployment)
 
-## Tech Stack
+## 🚀 Getting Started
 
-- React.js (version 18)
-- JavaScript
-- Axios
-- Jest (unit test)
+Follow these instructions to set up the project locally:
 
-## Getting Started
-
-To get a local copy of this project up and running, follow these steps:
-
-1. Clone the repository:
-
-   ```shell
+1. **Clone the repository**
+   ```bash
    git clone https://github.com/your-username/kapanlibur-app.git
+   cd kapanlibur-app
    ```
 
-2. Change to the project directory:
-   ```shell
-     cd kapanlibur-app
-   ```
-3. Start the development server:
-   ```shel
-     npm run dev
+2. **Install dependencies**
+   ```bash
+   npm install
    ```
 
-## Usage
+3. **Start development server**
+   ```bash
+   npm run dev
+   ```
 
-This project is open-source, and you are free to use it as a template or contribute to its development. If you encounter any issues or have suggestions for improvements, please create an issue.
+4. **Open in browser**
+   ```
+   http://localhost:3000
+   ```
 
+## 🧪 Running Tests
+```bash
+npm test
+```
 
-## Contributing
-If you would like to contribute to this project, please follow the contributing guidelines.
-  
+## 🤝 Contributing
+
+We welcome contributions! Here's how to help:
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code standards.
+
+## 📄 License
+
+This project is open source under the [MIT License](LICENSE).
+
+---
+
+**Live Demo**: [https://kapanlibur.vercel.app/](https://kapanlibur.vercel.app/)  
+**Report Issues**: [GitHub Issues](https://github.com/your-username/kapanlibur-app/issues)
+```
+
