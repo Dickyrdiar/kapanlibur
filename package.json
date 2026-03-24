@@ -17,6 +17,11 @@
       "@babel/preset-react"
     ]
   },
+
+  "engines": {
+    "node": "20.x"
+  },
+  
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.0",
     "antd": "^5.23.1",
