@@ -17,10 +17,10 @@ const Footer = () => {
           </a>{" "}
           and API from{" "}
           <a
-            href="https://api-harilibur.vercel.app/"
+            href="#"
             className={`hover:underline ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`}
           >
-            API Harilibur
+            API Google Calendar
           </a>
         </p>
       </div>
