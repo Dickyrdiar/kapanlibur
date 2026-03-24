@@ -44,7 +44,10 @@ const Dashboard = ({ timeNow, name, date, days, hours, minutes, seconds, loading
                 {date}
               </p>
               <p className={`mt-4 ${theme === "dark" ? "text-gray-300" : "text-gray-800"}`}>
-                {days}{t("day")}, {hours}{t("hour")}, {minutes}{t("minutes")}, {seconds}{t("second")}
+                {days === undefined && hours === undefined && minutes === undefined && seconds === undefined
+                  ? `${days}${t("day")}, ${hours}${t("hour")}, ${minutes}${t("minutes")}, ${seconds}${t("second")}`
+                  : <p className={`font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Selamat Merayakan {name} 🎉</p>
+                }
               </p>
             </>
           )}

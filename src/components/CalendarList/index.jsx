@@ -17,8 +17,7 @@ const CalendarList = ({
 }) => {
   const theme = useSelector((state) => state.theme.theme);
   const [isDisabled] = useState(false);
-  
-  // Date validation helpers
+
   const isCurrentYearMinusOne = moment(currentMonth).year() === moment().year() - 1;
   const isDecember = moment(currentMonth).month() === 11;
 
@@ -41,6 +40,7 @@ const CalendarList = ({
           }}
         />
       </div>
+
       {/* Heading */}
       <div className="text-center mb-8 relative z-10">
         <p className={`text-lg font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
@@ -53,14 +53,15 @@ const CalendarList = ({
         <div className={`w-full max-w-3xl rounded-xl shadow-xl ${
           theme === 'dark' ? 'bg-gray-800 text-gray-100' : 'bg-white text-gray-800'
         } p-6`}>
-          {/* Calendar Navigation */}
+
+          {/* Navigation */}
           <div className="flex items-center justify-between mb-8 px-2">
             <button
               onClick={isCurrentYearMinusOne ? undefined : handlePrevMonth}
               disabled={isCurrentYearMinusOne}
               className={`p-2 rounded-lg ${
-                theme === 'dark' 
-                  ? 'hover:bg-gray-700 disabled:opacity-40' 
+                theme === 'dark'
+                  ? 'hover:bg-gray-700 disabled:opacity-40'
                   : 'hover:bg-gray-100 disabled:opacity-40'
               } transition-colors`}
             >
@@ -75,8 +76,8 @@ const CalendarList = ({
               onClick={isDecember ? undefined : handleNextMonth}
               disabled={isDecember}
               className={`p-2 rounded-lg ${
-                theme === 'dark' 
-                  ? 'hover:bg-gray-700 disabled:opacity-40' 
+                theme === 'dark'
+                  ? 'hover:bg-gray-700 disabled:opacity-40'
                   : 'hover:bg-gray-100 disabled:opacity-40'
               } transition-colors`}
             >
@@ -85,79 +86,50 @@ const CalendarList = ({
           </div>
 
           {/* Content */}
-          <div className="space-y-8">
-            {(!holidayList?.length && !dayLeave?.length) ? (
-              <div className="py-12 text-center">
-                <img
-                  src={ImageCalendar}
-                  alt="No events"
-                  className="mx-auto w-32 h-32 opacity-75 mb-4"
-                />
-                <p className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
-                  Tidak ada acara yang terjadwal
-                </p>
-              </div>
-            ) : (
-              <div className="grid md:grid-cols-2 gap-8">
-                {/* Holidays Section */}
-                <div>
-                  <h3 className={`text-lg font-medium mb-4 ${
-                    theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
-                  }`}>
-                    Hari Libur
-                  </h3>
-                  <div className="space-y-3">
-                    {holidayList?.map((val, index) => (
-                      <div
-                        key={index}
-                        className={`p-4 rounded-lg transition-colors ${
-                          theme === 'dark' 
-                            ? 'bg-gray-700 hover:bg-gray-600' 
-                            : 'bg-gray-50 hover:bg-gray-100'
-                        }`}
-                      >
-                        <div className="font-medium text-sm">
-                          {val.holiday_name}
-                        </div>
-                        <div className={`text-xs ${
-                          theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
-                        }`}>
-                          {intlDateFormatId(val.holiday_date)}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+          {(!holidayList?.length && !dayLeave?.length) ? (
+            <div className="py-12 text-center">
+              <img
+                src={ImageCalendar}
+                alt="No events"
+                className="mx-auto w-32 h-32 opacity-75 mb-4"
+              />
+              <p className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
+                Tidak ada acara yang terjadwal
+              </p>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center w-full">
+              <h3 className={`text-lg font-medium mb-4 text-center ${
+                theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+              }`}>
+                Hari Libur
+              </h3>
 
-                {/* Leave Days Section */}
-                <div>
-                  <h3 className={`text-lg font-medium mb-4 ${
-                    theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
-                  }`}>
-                    Tanggal Cuti
-                  </h3>
-                  <div className="space-y-3">
-                    {dayLeave?.map((date, index) => (
-                      <div
-                        key={index}
-                        className={`p-4 rounded-lg transition-colors ${
-                          theme === 'dark' 
-                            ? 'bg-gray-700 hover:bg-gray-600' 
-                            : 'bg-gray-50 hover:bg-gray-100'
-                        }`}
-                      >
-                        <div className={`text-sm ${
-                          theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
-                        }`}>
-                          {intlDateFormatId(date)}
-                        </div>
-                      </div>
-                    ))}
+              {/* Grid 3 kolom — card w-full tanpa max-w agar tidak ada gap kosong */}
+              <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-3">
+                {holidayList?.map((val, index) => (
+                  <div
+                    key={index}
+                    className={`w-full p-4 rounded-lg transition-colors text-center ${
+                      theme === 'dark'
+                        ? 'bg-gray-700 hover:bg-gray-600'
+                        : 'bg-gray-50 hover:bg-gray-100'
+                    }`}
+                  >
+                    <div className="font-medium text-sm leading-snug">
+                      {val.holiday_name}
+                    </div>
+                    <div className={`text-xs mt-2 ${
+                      theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+                    }`}>
+                      {intlDateFormatId(val.holiday_date)}
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
-            )}
-          </div>
+            </div>
+          )}
+
         </div>
       </div>
     </div>

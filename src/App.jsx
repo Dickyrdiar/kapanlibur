@@ -7,15 +7,20 @@ import 'moment/locale/id';
 import 'antd/dist/reset.css';
 import Dashboard from "./components/Dashboard";
 import NavbarComponent from "./components/NavComponent";
-import { countdownHoliday } from "./controller/countdownHoliday";
+import { useCountdownHoliday } from "./controller/countdownHoliday";
 import CalendarList from "./components/CalendarList";
 import Footer from "./components/Footer";
 import { ControllerCalendar } from "./controller/controllerCalendar";
 import { intlDateFormatId } from "./shared/internationalDate/intlDateFormat";
+import Confetti from 'react-confetti'
+import { useWindowSize } from "react-use";
+// import { useWindowSize } from 'react-use'
+
 
 function App() {
-  const { countDown, loading, isVisible } = countdownHoliday();
+  const { countDown, loading, isVisible } = useCountdownHoliday();
   const { listHoliday, handleNextMonth, handlePrevMonth, currentMonth, dayLeave } = ControllerCalendar();
+  const { width, height } = useWindowSize()
 
   useEffect(() => {
     moment.locale('id');
@@ -24,6 +29,17 @@ function App() {
 
   return (
     <>
+      {/* Confetti digabung ke dalam return utama */}
+      {isVisible && (
+        <Confetti
+          width={width}
+          height={height}
+          recycle={false}
+          numberOfPieces={300}
+          gravity={0.2}
+        />
+      )}
+
       <NavbarComponent converty={isVisible} />
       <Dashboard
         timeNow={intlDateFormatId(new Date())}
