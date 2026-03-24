@@ -1,78 +1,94 @@
-import { useEffect } from "react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import useFetchHariLibur from "../customHook"
 
-export const countdownHoliday = () => {
+export const useCountdownHoliday = () => {
   const [countDown, setCountdown] = useState(null)
-  const [isVisible, setIsvisible] = useState(false)
-  const {data, loading, error} = useFetchHariLibur({
-    url: '/api',
-    method: 'GET'
+  const [isVisible, setIsVisible] = useState(false)
+
+  // Ambil data tahun sekarang
+  const { data, loading, error } = useFetchHariLibur({
+    year: new Date().getFullYear()
   })
 
   useEffect(() => {
+    if (!data || data.length === 0) return
+
     const currentDate = new Date()
-    const currentMonth = currentDate.getMonth() + 1
-    const currentYear = currentDate.getFullYear()
-    const filterNational = data?.filter((val) => val.is_national_holiday === true).reverse()
 
-    console.log("filter", filterNational)
+    // Normalisasi data Google Calendar ke format yang dibutuhkan
+    const normalized = data.map((event) => ({
+      holiday_date: event.start?.date,   // "YYYY-MM-DD"
+      holiday_name: event.summary,
+      is_national_holiday: true,
+    }))
 
-    let nextHoliday = null
-    for (const holiday of Object.values(filterNational || {})) {
-      const holidayDate = new Date(holiday?.holiday_date)
-      const holidayYear = holidayDate.getFullYear()
-      const holidayMonth = holidayDate.getMonth() + 1
+    // Urutkan ascending (terdekat duluan) lalu cari yang belum lewat
+    const sorted = [...normalized].sort(
+      (a, b) => new Date(a.holiday_date) - new Date(b.holiday_date)
+    )
 
-      if (holidayYear > currentYear || (holidayYear === currentYear && holidayMonth >= currentMonth)) {
-        if (holidayDate > currentDate) {
-          nextHoliday = holiday
-          break;
-        }
-      } else if (holidayMonth > currentMonth) {
-        nextHoliday = holiday
-        break;
-      }
+    const nextHoliday = sorted.find((holiday) => {
+      const holidayDate = new Date(holiday.holiday_date)
+      // Set jam ke 00:00:00 agar hari H tetap terhitung
+      holidayDate.setHours(0, 0, 0, 0)
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      return holidayDate >= today
+    })
 
+    if (!nextHoliday) return
+
+    const holidayDate = new Date(nextHoliday.holiday_date)
+    holidayDate.setHours(0, 0, 0, 0)
+
+    // Cek apakah hari ini adalah hari libur
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    if (holidayDate.getTime() === today.getTime()) {
+      setIsVisible(true)
     }
 
-    if (nextHoliday) {
-      const holidayDate = new Date(nextHoliday.holiday_date)
-      const timeuntilHoliday = holidayDate - currentDate
-
-      if (timeuntilHoliday <= 0) {
-        setIsvisible(true)
-      }
-
-      setCountdown({
+    // Set state awal sebelum interval berjalan
+    const calcRemaining = () => {
+      const now = new Date()
+      const timeRemaining = holidayDate - now
+      return {
         name: nextHoliday.holiday_name,
-        date: holidayDate.toLocaleString(),
-        timeRemaining: timeuntilHoliday,
-      })
-
-      const timer = setInterval(() => {
-        const timeRemaining = holidayDate - new Date()
-        if (timeRemaining <= 0) {
-          clearInterval(timer)
-          setCountdown(null)
-        } else {
-          setCountdown((prevCountdown) => ({
-            ...prevCountdown,
-            days: Math.floor(timeRemaining / (1000 * 60 * 60 * 24)),
-            hours: Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-            minutes: Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60)),
-            seconds: Math.floor((timeRemaining % (1000 * 60)) / 1000),
-
-          }))
-        }
-      }, 1000)
+        date: holidayDate.toLocaleDateString("id-ID", {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        }),
+        timeRemaining,
+        days: Math.floor(timeRemaining / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((timeRemaining % (1000 * 60)) / 1000),
+      }
     }
-  },[data])
+
+    setCountdown(calcRemaining())
+
+    const timer = setInterval(() => {
+      const remaining = calcRemaining()
+      if (remaining.timeRemaining <= 0) {
+        clearInterval(timer)
+        setIsVisible(true)
+        setCountdown(null)
+        return
+      }
+      setCountdown(remaining)
+    }, 1000)
+
+    // Cleanup: hentikan interval saat komponen unmount atau data berubah
+    return () => clearInterval(timer)
+  }, [data])
 
   return {
     countDown,
     loading,
     error,
-    isVisible
+    isVisible,
   }
 }

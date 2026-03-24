@@ -85,7 +85,7 @@ const CalendarList = ({
           </div>
 
           {/* Content */}
-          <div className="space-y-8">
+          <div className="space">
             {(!holidayList?.length && !dayLeave?.length) ? (
               <div className="py-12 text-center">
                 <img
@@ -98,64 +98,41 @@ const CalendarList = ({
                 </p>
               </div>
             ) : (
-              <div className="grid md:grid-cols-2 gap-8">
-                {/* Holidays Section */}
-                <div>
-                  <h3 className={`text-lg font-medium mb-4 ${
-                    theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
-                  }`}>
-                    Hari Libur
-                  </h3>
-                  <div className="space-y-3">
-                    {holidayList?.map((val, index) => (
-                      <div
-                        key={index}
-                        className={`p-4 rounded-lg transition-colors ${
-                          theme === 'dark' 
-                            ? 'bg-gray-700 hover:bg-gray-600' 
-                            : 'bg-gray-50 hover:bg-gray-100'
-                        }`}
-                      >
-                        <div className="font-medium text-sm">
-                          {val.holiday_name}
-                        </div>
-                        <div className={`text-xs ${
-                          theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
-                        }`}>
-                          {intlDateFormatId(val.holiday_date)}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+            <div className="grid md:grid-cols-2 gap-8 justify-center">
+              <div className="flex flex-col items-center w-full">
+    <h3
+      className={`text-lg font-medium mb-4 text-center ${
+        theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+      }`}
+    >
+      Hari Libur
+                </h3>
 
-                {/* Leave Days Section */}
-                <div>
-                  <h3 className={`text-lg font-medium mb-4 ${
-                    theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
-                  }`}>
-                    Tanggal Cuti
-                  </h3>
-                  <div className="space-y-3">
-                    {dayLeave?.map((date, index) => (
+                <div className="flex flex-wrap gap-3 justify-center w-full">
+                  {holidayList?.map((val, index) => (
+                    <div
+                      key={index}
+                      className={`w-40 p-4 rounded-lg transition-colors text-center ${
+                        theme === 'dark'
+                          ? 'bg-gray-700 hover:bg-gray-600'
+                          : 'bg-gray-50 hover:bg-gray-100'
+                      }`}
+                    >
+                      <div className="font-medium text-sm">
+                        {val.holiday_name}
+                      </div>
                       <div
-                        key={index}
-                        className={`p-4 rounded-lg transition-colors ${
-                          theme === 'dark' 
-                            ? 'bg-gray-700 hover:bg-gray-600' 
-                            : 'bg-gray-50 hover:bg-gray-100'
+                        className={`text-xs mt-1 ${
+                          theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
                         }`}
                       >
-                        <div className={`text-sm ${
-                          theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
-                        }`}>
-                          {intlDateFormatId(date)}
-                        </div>
+                        {intlDateFormatId(val.holiday_date)}
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
               </div>
+            </div>
             )}
           </div>
         </div>
