@@ -9,6 +9,8 @@ const Dashboard = ({ timeNow, name, date, days, hours, minutes, seconds, loading
   const { t } = useTranslation();
   const theme = useSelector((state) => state.theme.theme);
 
+  console.log("day", days)
+
   return (
     <div className={`relative isolate px-3 lg:px-8 h-[500px] ${theme === "dark" ? "bg-gray-900" : "bg-white"}`}>
       <div className="absolute inset-x-0 -top-20 -z-10 transform-gpu overflow-hidden blur-3xl">
@@ -43,10 +45,10 @@ const Dashboard = ({ timeNow, name, date, days, hours, minutes, seconds, loading
               <p className={`mt-4 ${theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>
                 {date}
               </p>
-              <p className={`mt-4 ${theme === "dark" ? "text-gray-300" : "text-gray-800"}`}>
+              <p className={`mt-4 text-md ${theme === "dark" ? "text-gray-300" : "text-gray-800"}`}>
                 {days === undefined && hours === undefined && minutes === undefined && seconds === undefined
-                  ? `${days}${t("day")}, ${hours}${t("hour")}, ${minutes}${t("minutes")}, ${seconds}${t("second")}`
-                  : <p className={`font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Selamat Merayakan {name} 🎉</p>
+                  ? <p className={`font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Selamat Merayakan {name} 🎉</p>
+                  : `${days}${t("day")}, ${hours}${t("hour")}, ${minutes}${t("minutes")}, ${seconds}${t("second")}`
                 }
               </p>
             </>
