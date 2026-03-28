@@ -4,66 +4,48 @@ import useFetchHariLibur from "../customHook"
 export const useCountdownHoliday = () => {
   const [countDown, setCountdown] = useState(null)
   const [isVisible, setIsVisible] = useState(false)
+  const [error, setError] = useState(null)
 
   const currentYear = useRef(new Date().getFullYear()).current
   const nextYear = currentYear + 1
 
-  // Fetch tahun ini dan tahun depan sekaligus
-  // agar saat semua liburan tahun ini habis, otomatis lanjut ke tahun depan
   const { data: dataThisYear, loading: loadingThis } = useFetchHariLibur({ year: currentYear })
   const { data: dataNextYear, loading: loadingNext } = useFetchHariLibur({ year: nextYear })
 
   const loading = loadingThis || loadingNext
-  const [error, setError] = useState(null)
 
-  const prevDataRef = useRef(null)
+  // Simpan sorted holidays agar bisa diakses dari dalam timer tanpa re-render
+  const sortedRef = useRef([])
+  // Flag agar proses normalisasi hanya sekali setelah data masuk
+  const isInitialized = useRef(false)
+  const timerRef = useRef(null)
 
-  useEffect(() => {
-    // Tunggu kedua fetch selesai
-    if (loadingThis || loadingNext) return
-    if (!dataThisYear && !dataNextYear) return
-
-    // Gabung data dua tahun
-    const combined = [
-      ...(dataThisYear || []),
-      ...(dataNextYear || []),
-    ]
-
-    // Cegah re-proses jika referensi tidak berubah
-    if (prevDataRef.current === combined) return
-    prevDataRef.current = combined
-
-    // Normalisasi & filter event yang punya tanggal
-    const normalized = combined
-      .map((event) => ({
-        holiday_date: event.start?.date,   // "YYYY-MM-DD"
-        holiday_name: event.summary,
-      }))
-      .filter((event) => Boolean(event.holiday_date))
-
-    if (normalized.length === 0) return
-
-    // Urutkan ascending
-    const sorted = [...normalized].sort(
-      (a, b) => new Date(a.holiday_date) - new Date(b.holiday_date)
-    )
+  // Fungsi cari dan mulai countdown ke liburan berikutnya
+  const startCountdown = (sorted) => {
+    // Bersihkan timer lama jika ada
+    if (timerRef.current) {
+      clearInterval(timerRef.current)
+      timerRef.current = null
+    }
 
     const today = new Date()
     today.setHours(0, 0, 0, 0)
 
-    // Cari liburan pertama yang >= hari ini (otomatis lintas bulan & tahun)
     const nextHoliday = sorted.find((holiday) => {
       const holidayDate = new Date(holiday.holiday_date)
       holidayDate.setHours(0, 0, 0, 0)
       return holidayDate >= today
     })
 
-    if (!nextHoliday) return
+    if (!nextHoliday) {
+      setCountdown(null)
+      return
+    }
 
     const holidayDate = new Date(nextHoliday.holiday_date)
     holidayDate.setHours(0, 0, 0, 0)
 
-    // Jika hari ini adalah hari libur
+    // Cek apakah hari ini hari libur
     if (holidayDate.getTime() === today.getTime()) {
       setIsVisible(true)
     }
@@ -71,7 +53,6 @@ export const useCountdownHoliday = () => {
     const calcRemaining = () => {
       const now = new Date()
       const timeRemaining = holidayDate - now
-
       return {
         name: nextHoliday.holiday_name,
         date: holidayDate.toLocaleDateString("id-ID", {
@@ -88,38 +69,81 @@ export const useCountdownHoliday = () => {
       }
     }
 
+    // Set nilai awal langsung sebelum interval
     setCountdown(calcRemaining())
 
-    const timer = setInterval(() => {
+    // Mulai interval
+    timerRef.current = setInterval(() => {
       const remaining = calcRemaining()
 
       if (remaining.timeRemaining <= 0) {
-        // Liburan hari ini tiba — tandai visible lalu cari liburan berikutnya
-        clearInterval(timer)
+        clearInterval(timerRef.current)
+        timerRef.current = null
         setIsVisible(true)
+        setCountdown(null)
 
-        // Cari liburan selanjutnya setelah yang baru saja tiba
-        const afterToday = sorted.filter((holiday) => {
+        // Cari liburan berikutnya dari sorted yang sudah ada
+        const nowDay = new Date()
+        nowDay.setHours(0, 0, 0, 0)
+
+        const nextAfter = sortedRef.current.find((holiday) => {
           const d = new Date(holiday.holiday_date)
           d.setHours(0, 0, 0, 0)
-          return d > today
+          return d > nowDay
         })
 
-        if (afterToday.length > 0) {
-          // Reset prevDataRef agar useEffect tidak di-skip
-          prevDataRef.current = null
-          setIsVisible(false)
-        } else {
-          setCountdown(null)
+        if (nextAfter) {
+          // Tunggu sebentar lalu mulai countdown berikutnya
+          setTimeout(() => {
+            setIsVisible(false)
+            startCountdown(sortedRef.current)
+          }, 3000)
         }
         return
       }
 
       setCountdown(remaining)
     }, 1000)
+  }
 
-    return () => clearInterval(timer)
+  useEffect(() => {
+    // Tunggu kedua fetch selesai
+    if (loadingThis || loadingNext) return
+    if (!dataThisYear && !dataNextYear) return
+    // Jangan proses ulang jika sudah diinisialisasi
+    if (isInitialized.current) return
+
+    const combined = [
+      ...(dataThisYear || []),
+      ...(dataNextYear || []),
+    ]
+
+    const normalized = combined
+      .map((event) => ({
+        holiday_date: event.start?.date,
+        holiday_name: event.summary,
+      }))
+      .filter((event) => Boolean(event.holiday_date))
+
+    if (normalized.length === 0) return
+
+    const sorted = [...normalized].sort(
+      (a, b) => new Date(a.holiday_date) - new Date(b.holiday_date)
+    )
+
+    // Simpan ke ref agar bisa diakses dari dalam timer
+    sortedRef.current = sorted
+    isInitialized.current = true
+
+    startCountdown(sorted)
   }, [dataThisYear, dataNextYear, loadingThis, loadingNext])
+
+  // Cleanup saat unmount
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current)
+    }
+  }, [])
 
   return {
     countDown,

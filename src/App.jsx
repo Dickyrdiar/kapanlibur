@@ -27,6 +27,8 @@ function App() {
     document.title = "KapanLibur - Planner of your Vacation days and Leave days";
   }, []);
 
+  console.log("count down", countDown)
+
   return (
     <>
       {/* Confetti digabung ke dalam return utama */}
